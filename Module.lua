@@ -1,32 +1,24 @@
 -- // Module Manager
 local Module = {}
-Module.cache = {}
+Module.Modules = {}
 Module.__index = Module
+do
+    -- // Create a new module
+    function Module.Create(Name, Load)
+        if Module.Modules[Name] then
+            return
+        end
 
--- // Load a module with caching
-function Module.Load(Path)
-    -- // Check if the module is already cached
-    if Module.cache[Path] then
-        return Module.cache[Path]
-    end
-    local module
+        Load(Module)
 
-    -- // Require the module if not cached
-    local success, err = pcall(function()
-        module = require(Path)
-    end)
-
-    -- // Check if the module fails to load
-    if not success then
-        warn(("Failed to load module at path: %s. Error: %s"):format(Path, err))
-        return nil
+        Module.Modules[Name] = Module
     end
 
-    -- // Cache the module
-    Module.cache[Path] = module
-
-    return module
+    -- // Get an existing module
+    function Module.Get(Name)
+        return Module.Modules[Name] or nil
+    end
 end
 
--- // Return module
+-- // Return
 return Module
