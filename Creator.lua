@@ -9,12 +9,8 @@ do
     end
 
     -- // Create a ROBLOX instance
-    function Creator.CreateInstance(ClassName, Props)
+    function Creator.CreateInstance(self, ClassName, Props)
         local Instance = Instance.new(ClassName)
-
-        if not Instance.Children then
-            Instance.Children = {}
-        end
 
         for Property, Value in pairs(Props) do
             if Property ~= 'Parent' and Property ~= 'Children' then
@@ -27,11 +23,8 @@ do
                 local ChildClassName = ChildData[1]
                 local ChildProps = ChildData[2]
 
-                local ChildInstance = Creator.CreateInstance(ChildClassName, ChildProps)
+                local ChildInstance = Creator.CreateInstance(Creator, ChildClassName, ChildProps)
                 ChildInstance.Parent = Instance
-
-                local ChildName = ChildProps.Name or ChildClassName
-                Instance.Children[ChildName] = ChildInstance
             end
         end
 
