@@ -1,8 +1,8 @@
 -- // Creator Class
 local Creator = {}
 Creator.__index = Creator
+local TweenService = game:GetService("TweenService")
 
-local TweenService = game:GetService('TweenService')
 do
     -- // Constructor
     function Creator.new()
@@ -10,14 +10,34 @@ do
         return self
     end
 
+    -- // Tween an Instance
+    function Creator:ApplyTween(Instance, TweenInfoData, Goals)
+        local TweenInfoObj = TweenInfo.new(
+            TweenInfoData.Time or 1,
+            TweenInfoData.EasingStyle or Enum.EasingStyle.Linear,
+            TweenInfoData.EasingDirection or Enum.EasingDirection.Out,
+            TweenInfoData.RepeatCount or 0,
+            TweenInfoData.Reverses or false,
+            TweenInfoData.DelayTime or 0
+        )
+
+        local Tween = TweenService:Create(Instance, TweenInfoObj, Goals)
+        Tween:Play()
+        return Tween
+    end
+
     -- // Create a ROBLOX instance
     function Creator.CreateInstance(self, ClassName, Props)
         local Instance = Instance.new(ClassName)
 
         for Property, Value in pairs(Props) do
-            if Property ~= 'Parent' and Property ~= 'Children' then
+            if Property ~= "Parent" and Property ~= "Children" and Property ~= "Tween" then
                 Instance[Property] = Value
             end
+        end
+
+        if Props.Tween then
+            self:ApplyTween(Instance, Props.Tween, Props.Tween.Goals or {})
         end
 
         if Props.Children then
@@ -34,32 +54,7 @@ do
             Instance.Parent = Props.Parent
         end
 
-        if Props.Tween then
-            self:TweenInstance(Instance, Props.Tween)
-        end
-
         return Instance
-    end
-
-    -- // Tween an Instance
-    function Creator:TweenInstance(Instance, TweenProps)
-        local TweenInfoProps = TweenInfo.new(
-            TweenProps.Time or 1,
-            TweenProps.EasingStyle or Enum.EasingStyle.Linear,
-            TweenProps.EasingDirection or Enum.EasingDirection.Out,
-            TweenProps.RepeatCount or 0,
-            TweenProps.Reverses or false,
-            TweenProps.DelayTime or 0
-        )
-        local Goals = TweenProps.Goals
-
-        if Goals then
-            local Tween = TweenService:Create(Instance, TweenInfoProps, Goals)
-            Tween:Play()
-            return Tween
-        else
-            return nil
-        end
     end
 end
 
