@@ -1,8 +1,9 @@
+-- // Services
+local TweenService = game:GetService("TweenService")
+
 -- // Creator Class
 local Creator = {}
 Creator.__index = Creator
-local TweenService = game:GetService("TweenService")
-
 do
     -- // Constructor
     function Creator.new()
@@ -31,7 +32,7 @@ do
         local Instance = Instance.new(ClassName)
 
         for Property, Value in pairs(Props) do
-            if Property ~= "Parent" and Property ~= "Children" and Property ~= "Tween" then
+            if Property ~= 'Parent' and Property ~= 'Children' and Property ~= 'Tween' then
                 Instance[Property] = Value
             end
         end
