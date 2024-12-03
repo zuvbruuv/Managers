@@ -1,5 +1,5 @@
 -- // Services
-local TweenService = game:GetService("TweenService")
+local TweenService = game:GetService('TweenService')
 
 -- // Creator Class
 local Creator = {}
