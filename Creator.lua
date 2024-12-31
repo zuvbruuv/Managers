@@ -5,13 +5,11 @@ local TweenService = game:GetService('TweenService')
 local Creator = {}
 Creator.__index = Creator
 do
-    -- // Constructor
     function Creator.new()
         local self = setmetatable({}, Creator)
         return self
     end
 
-    -- // Tween an Instance
     function Creator:ApplyTween(Instance, TweenInfoData, Goals)
         local TweenInfoObj = TweenInfo.new(
             TweenInfoData.Time or 1,
@@ -27,7 +25,6 @@ do
         return Tween
     end
 
-    -- // Create a ROBLOX instance
     function Creator.CreateInstance(self, ClassName, Props)
         local Instance = Instance.new(ClassName)
 
