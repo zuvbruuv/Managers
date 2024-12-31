@@ -8,7 +8,6 @@ do
         if Module.Modules[Name] then
             return
         end
-
         Load(Module)
 
         Module.Modules[Name] = Module
